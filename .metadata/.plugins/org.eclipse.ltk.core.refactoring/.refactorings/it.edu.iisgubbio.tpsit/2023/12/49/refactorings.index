@@ -1,1 +1,6 @@
 1701863198315	Delete element
+1701865662031	Rename local variable 'processo'
+1701865678829	Rename local variable 'arrivo'
+1701865733747	Rename local variable 'esecuzione'
+1701865745247	Rename local variable 'servizio'
+1701865755939	Rename local variable 'attesa'

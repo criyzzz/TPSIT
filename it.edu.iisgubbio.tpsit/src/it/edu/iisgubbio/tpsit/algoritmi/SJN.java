@@ -1,104 +1,116 @@
 package it.edu.iisgubbio.tpsit.algoritmi;
 
-public class SJN {
-	
+// SJN (Shortest Job Next) is an algorithm that order the process and execute them basing
+// on the lowest execution time
 
+public class SJN {
 
 	public static void main(String[] args) {
 
-		String [] processo = new String [4];
-		int [] arrivo = new int [4];
-		int [] esecuzione = new int [4];
-		int [] servizio = new int [4];
-		int [] attesa = new int [4];
+		String[] process = new String[4];
+		int[] arrive = new int[4];
+		int[] execution = new int[4];
+		int[] service = new int[4];
+		int[] wait = new int[4];
 
-		double mediaAttesa;
+		double mediaAttesa = 0;
 
-		processo[0] = "P0";
-		processo[1] = "P1";
-		processo[2] = "P2";
-		processo[3] = "P3";
+		// insert the process and the execution time
 
-		esecuzione[0] = 5;
-		esecuzione[1] = 3;
-		esecuzione[2] = 8;
-		esecuzione[3] = 6;
-		
-		for(int x = 0; x<4; x++) {
-			arrivo[x]=x;
+		process[0] = "P0";
+		process[1] = "P1";
+		process[2] = "P2";
+		process[3] = "P3";
+
+		execution[0] = 5;
+		execution[1] = 3;
+		execution[2] = 8;
+		execution[3] = 6;
+
+		// automatically insert the arrive time
+
+		for (int x = 0; x < 4; x++) {
+			arrive[x] = x;
 		}
-		
-//		---------------------------------------------
-		int ultimo = esecuzione.length-1;
 
-		for(int superficie=0;superficie<=ultimo-1;superficie=superficie+1){
-			for(int posizione=ultimo-1;posizione>=superficie;posizione--){
-				if(esecuzione[posizione]>esecuzione[posizione+1]){
-					
-					int appoggioEsecuzione=esecuzione[posizione];
-					String appoggioProcesso = processo[posizione];
-					int appoggioArrivo = arrivo[posizione];
-					
-					esecuzione[posizione]=esecuzione[posizione+1];
-					processo[posizione]=processo[posizione+1];
-					arrivo[posizione]=arrivo[posizione+1];
-					
-					esecuzione[posizione+1]=appoggioEsecuzione;
-					processo[posizione+1]=appoggioProcesso;
-					arrivo[posizione+1]=appoggioArrivo;
+		// order the arrive and the process and the execution time
+		// ---------------------------------------------
+		int ultimo = execution.length - 1;
+
+		for (int superficie = 0; superficie <= ultimo - 1; superficie = superficie + 1) {
+			for (int posizione = ultimo - 1; posizione >= superficie; posizione--) {
+				if (execution[posizione] > execution[posizione + 1]) {
+
+					int appoggioEsecuzione = execution[posizione];
+					String appoggioProcesso = process[posizione];
+					int appoggioArrivo = arrive[posizione];
+
+					execution[posizione] = execution[posizione + 1];
+					process[posizione] = process[posizione + 1];
+					arrive[posizione] = arrive[posizione + 1];
+
+					execution[posizione + 1] = appoggioEsecuzione;
+					process[posizione + 1] = appoggioProcesso;
+					arrive[posizione + 1] = appoggioArrivo;
 				}
 			}
 		}
-//		---------------------------------------------
+		// ---------------------------------------------
 
-		
+		for (int y = 0; y < 4; y++) {
+			// the service and the wait time of the P0 are 0 so is not necessary any
+			// calculations
 
-		for(int y = 0; y<4; y++) {
-			if(y==0) {
+			if (y == 0) {
 
-				servizio[0]= 0;
+				service[0] = 0;
 
-				attesa[0]=0;
+				wait[0] = 0;
 
-			}else {
+			} else {
 
-				servizio[y]=servizio[y-1]+esecuzione[y-1];
+				// for the other process a I calculate the service and the wait time
 
-				attesa[y] =  servizio[y]-arrivo[y];
+				service[y] = service[y - 1] + execution[y - 1];
+
+				wait[y] = service[y] - arrive[y];
 			}
 		}
 
-		mediaAttesa =(double)(attesa[0]+attesa[1]+attesa[2]+attesa[3])/4;
+		// calculate the average wait time
+		for (int i = 0; i < process.length; i++) {
 
-		for(int i = 0; i<=3; i++) {
-			System.out.println(processo[i]);
+			mediaAttesa = mediaAttesa + wait[i];
+
 		}
-		
+
+		mediaAttesa = mediaAttesa / process.length;
+
+		for (int i = 0; i <= 3; i++) {
+			System.out.println(process[i]);
+		}
+
 		System.out.println("processi");
-		
-		for(int i = 0; i<=3; i++) {
-			System.out.println(esecuzione[i]);
+
+		for (int i = 0; i <= 3; i++) {
+			System.out.println(execution[i]);
 		}
-		
 
 		System.out.println("esecuzioni");
-		
-		
-		for(int i = 0; i<=3; i++) {
-			System.out.println(servizio[i]);
+
+		for (int i = 0; i <= 3; i++) {
+			System.out.println(service[i]);
 		}
 
 		System.out.println("servizi");
-		
-		for(int i = 0; i<=3; i++) {
-			System.out.println(attesa[i]);
+
+		for (int i = 0; i <= 3; i++) {
+			System.out.println(wait[i]);
 		}
 
 		System.out.println("attese");
-		
-		
-		System.out.println("la media attesa è: "+mediaAttesa);
 
+		System.out.println("la media attesa è: " + mediaAttesa);
 
 	}
 }
