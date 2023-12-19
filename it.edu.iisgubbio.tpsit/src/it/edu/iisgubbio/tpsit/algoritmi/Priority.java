@@ -11,9 +11,11 @@ public class Priority {
 		int[] wait = new int[4];
 		int[] priority = new int[4];
 
-		double mediaAttesa = 0;
+		double avgWait = 0;
 
-		// insert the process and the execution time
+		/**
+		 * insert the process and the execution time
+		 */
 
 		process[0] = "P0";
 		process[1] = "P1";
@@ -30,40 +32,47 @@ public class Priority {
 		priority[2] = 1;
 		priority[3] = 3;
 
-		// automatically insert the arrive time
+		/**
+		 * automatically insert the arrive time
+		 */
 
 		for (int x = 0; x < 4; x++) {
 			arrive[x] = x;
 		}
 
-		// order the arrive and the process and the execution time basing on the
-		// priority
+		/**
+		 * order the arrive and the process and the execution time basing on the
+		 * priority
+		 */
+
 		// ---------------------------------------------
-		int ultimo = priority.length - 1;
+		int last = priority.length - 1;
 
-		for (int superficie = 0; superficie <= ultimo - 1; superficie = superficie + 1) {
-			for (int posizione = ultimo - 1; posizione >= superficie; posizione--) {
-				if (priority[posizione] < priority[posizione + 1]) {
+		for (int x = 0; x <= last - 1; x = x + 1) {
+			for (int y = last - 1; y >= x; y--) {
+				if (priority[y] < priority[y + 1]) {
 
-					int appoggioPriority = priority[posizione];
-					String appoggioProcesso = process[posizione];
-					int appoggioArrivo = arrive[posizione];
+					int savePriority = priority[y];
+					String saveProcesso = process[y];
+					int saveArrive = arrive[y];
 
-					priority[posizione] = priority[posizione + 1];
-					process[posizione] = process[posizione + 1];
-					arrive[posizione] = arrive[posizione + 1];
+					priority[y] = priority[y + 1];
+					process[y] = process[y + 1];
+					arrive[y] = arrive[y + 1];
 
-					priority[posizione + 1] = appoggioPriority;
-					process[posizione + 1] = appoggioProcesso;
-					arrive[posizione + 1] = appoggioArrivo;
+					priority[y + 1] = savePriority;
+					process[y + 1] = saveProcesso;
+					arrive[y + 1] = saveArrive;
 				}
 			}
 		}
 		// ---------------------------------------------
 
 		for (int y = 0; y < 4; y++) {
-			// the service and the wait time of the P0 are 0 so is not necessary any
-			// calculations
+			/**
+			 * the service and the wait time of the P0 are 0 so is not necessary any
+			 * calculations
+			 */
 
 			if (y == 0) {
 
@@ -73,7 +82,9 @@ public class Priority {
 
 			} else {
 
-				// for the other process a I calculate the service and the wait time
+				/**
+				 * for the other process a I calculate the service and the wait time
+				 */
 
 				service[y] = service[y - 1] + execution[y - 1];
 
@@ -81,40 +92,42 @@ public class Priority {
 			}
 		}
 
-		// calculate the average wait time
+		/**
+		 * calculate the average wait time
+		 */
 		for (int i = 0; i < process.length; i++) {
 
-			mediaAttesa = mediaAttesa + wait[i];
+			avgWait = avgWait + wait[i];
 
 		}
 
-		mediaAttesa = mediaAttesa / process.length;
+		avgWait = avgWait / process.length;
 
 		for (int i = 0; i <= 3; i++) {
 			System.out.println(process[i]);
 		}
 
-		System.out.println("processi");
+		System.out.println("processes");
 
 		for (int i = 0; i <= 3; i++) {
 			System.out.println(execution[i]);
 		}
 
-		System.out.println("esecuzioni");
+		System.out.println("executions");
 
 		for (int i = 0; i <= 3; i++) {
 			System.out.println(service[i]);
 		}
 
-		System.out.println("servizi");
+		System.out.println("services");
 
 		for (int i = 0; i <= 3; i++) {
 			System.out.println(wait[i]);
 		}
 
-		System.out.println("attese");
+		System.out.println("wait");
 
-		System.out.println("la media attesa è: " + mediaAttesa);
+		System.out.println("avg wait: " + avgWait);
 
 	}
 }
